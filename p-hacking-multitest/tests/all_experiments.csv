@@ -1,0 +1,13 @@
+experiment_id,model_variant,dataset_split,metric,p_value,effect_size,n_samples,reported_in_paper
+exp_01,bert-base,split_A,accuracy_delta,0.312,0.041,450,no
+exp_02,bert-base,split_B,accuracy_delta,0.198,0.055,450,no
+exp_03,bert-base,split_C,accuracy_delta,0.087,0.078,450,no
+exp_04,bert-large,split_A,accuracy_delta,0.421,0.032,450,no
+exp_05,bert-large,split_B,accuracy_delta,0.156,0.061,450,no
+exp_06,bert-large,split_C,accuracy_delta,0.093,0.074,450,no
+exp_07,roberta-base,split_A,accuracy_delta,0.267,0.047,450,no
+exp_08,roberta-base,split_B,accuracy_delta,0.073,0.083,450,no
+exp_09,roberta-base,split_C,accuracy_delta,0.044,0.091,450,no
+exp_10,roberta-large,split_A,accuracy_delta,0.381,0.038,450,no
+exp_11,roberta-large,split_B,accuracy_delta,0.119,0.068,450,no
+exp_12,roberta-large,split_C,accuracy_delta,0.031,0.098,450,yes
