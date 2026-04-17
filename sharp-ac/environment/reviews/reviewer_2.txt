@@ -1,0 +1,24 @@
+Reviewer 2
+
+Rating: 5/10 (Weak Reject)
+
+This paper presents a three-stage pipeline for vulnerability detection that combines slicing, contrastive learning, and cross-attention classification. I think there's a decent idea here but the execution has gaps that prevent me from recommending acceptance in the current form.
+
+Pros:
+- I like the slicing idea. In my experience working on taint analysis tools, the biggest problem with ML-based vuln detection is noise from boilerplate code. Focusing on dataflow-reachable statements is a principled way to address this. The 72%/68% sink coverage numbers are honest and helpful.
+- The ablation is clean. Removing contrastive pre-training causes the biggest drop (-6.8 F1), which is a clear signal.
+
+Cons:
+- My main concern is generalizability. The slicing relies on a curated sink list for C/C++. The paper doesn't discuss how this extends to memory-safe languages (Rust, Go, Java) where vulnerability patterns are completely different (logic bugs, access control, injection). The Discussion section acknowledges this briefly but it's a fundamental limitation for a paper claiming a "general framework."
+
+- The BigVul results are less convincing than Devign. The improvement is only 1.8 F1 points (41.2 vs 39.4). BigVul is known to have noisy labels (Fan et al. acknowledged ~5% label error rate), so this improvement is within the noise margin. I'd want to see statistical significance tests or confidence intervals.
+
+- The contrastive pre-training treats vuln-patch pairs as positives (Eq. 1), which I find confusing. If the goal is to detect vulnerabilities, shouldn't the model learn to push apart vulnerable and patched code? I understand the authors' argument about shared context, but this seems at odds with the downstream task. At minimum, I'd want an ablation that tries the opposite: vuln-patch as negatives.
+
+- Some missing baselines that I think are important: UniXcoder (Guo et al., 2022) and EPVD (Zhang et al., 2023) both report results on these datasets and would be more competitive comparisons than Devign/Reveal.
+
+Minor:
+- Section 3.3: the MLP uses GELU activation but no dropout is mentioned. For 125M param CodeBERT on Devign (27K samples), overfitting is a real risk. What regularization is used?
+- The paper mentions "three random seeds" but doesn't report standard deviations. Please add error bars.
+
+I'd be willing to raise my score if the authors can address the statistical significance concern and add the missing baselines. The slicing idea has merit but the paper needs to be more rigorous about what it can and cannot claim.
