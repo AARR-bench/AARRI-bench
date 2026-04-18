@@ -1,0 +1,373 @@
+\documentclass[conference]{IEEEtran}
+\usepackage{amsmath,amssymb}
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{multirow}
+
+\title{LogFocal: Addressing Class Imbalance in\\Log-Based Anomaly Detection\\with Focal Loss}
+
+\author{
+\IEEEauthorblockN{Yichen Zhang\IEEEauthorrefmark{1}, Maria Chen\IEEEauthorrefmark{1}, Kenji Tanaka\IEEEauthorrefmark{2}}
+\IEEEauthorblockA{\IEEEauthorrefmark{1}Department of Computer Science, University of Waterloo, Canada}
+\IEEEauthorblockA{\IEEEauthorrefmark{2}NTT Research, Tokyo, Japan}
+}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+System logs are a primary data source for detecting anomalies in large-scale distributed systems.
+Recent deep learning approaches have achieved promising results by modeling log sequences as natural language.
+However, a persistent challenge is the extreme class imbalance between normal and anomalous log sequences---anomalies
+typically constitute less than 1\% of all log data.
+Standard cross-entropy loss treats all samples equally,
+causing models to be biased toward the dominant normal class and miss rare anomalies.
+In this paper, we propose \textbf{LogFocal},
+a log anomaly detection framework that replaces cross-entropy with focal loss
+to dynamically down-weight well-classified normal samples and focus learning on hard-to-detect anomalies.
+LogFocal uses a pre-trained language model to encode log templates into contextual embeddings,
+followed by a bidirectional LSTM to capture sequential patterns,
+and applies $\alpha$-balanced focal loss for the final binary classification.
+We evaluate LogFocal on three public benchmarks: HDFS, BGL, and Thunderbird.
+Results show that focal loss yields consistent improvements over cross-entropy,
+with the largest gain on the most imbalanced dataset (Thunderbird: +5.7 F1 points).
+LogFocal achieves state-of-the-art F1 scores of 98.2\% on HDFS, 96.1\% on BGL, and 94.8\% on Thunderbird.
+\end{abstract}
+
+\section{Introduction}\label{sec:intro}
+
+Modern distributed systems produce massive volumes of log data.
+These logs record system events, error messages, and status updates,
+serving as the primary diagnostic tool for site reliability engineers (SREs)~\cite{he2021survey}.
+Detecting anomalies in log streams---events that deviate from expected behavior---is critical
+for maintaining system availability and preventing cascading failures.
+
+Traditional log anomaly detection methods rely on log parsing followed by pattern matching
+or statistical analysis~\cite{xu2009detecting,lou2010mining}.
+More recently, deep learning approaches have reformulated log anomaly detection
+as a sequence modeling problem.
+DeepLog~\cite{du2017deeplog} uses an LSTM to predict the next log key and flags deviations as anomalies.
+LogAnomaly~\cite{meng2019loganomaly} incorporates semantic information from log templates.
+LogRobust~\cite{zhang2019robust} improves robustness to log evolution using attention mechanisms.
+PLELog~\cite{yang2021plelog} and LogBERT~\cite{guo2021logbert} leverage pre-trained language models
+to capture deeper semantic representations of log messages.
+
+Despite these advances, a fundamental challenge remains largely unaddressed:
+\textbf{extreme class imbalance}.
+In production systems, anomalous log sequences are vastly outnumbered by normal ones.
+For example, in the Thunderbird dataset~\cite{oliner2007supercomputers},
+only 0.3\% of log sequences are anomalous.
+Standard cross-entropy (CE) loss assigns equal importance to all correctly classified samples,
+meaning the gradient signal is dominated by the abundant normal class.
+This causes the model to achieve high accuracy by simply predicting ``normal'' for most inputs,
+while missing subtle anomalies.
+
+We observe that this problem is structurally analogous to the class imbalance challenge
+in object detection, where Lin et al.~\cite{lin2017focal} proposed \emph{focal loss}
+to address the overwhelming number of easy negative examples.
+Focal loss adds a modulating factor $(1 - p_t)^\gamma$ to the standard CE loss,
+which reduces the contribution of well-classified examples and focuses training on hard examples.
+
+In this paper, we propose \textbf{LogFocal}, which adapts focal loss for log anomaly detection.
+Our framework consists of three components:
+\begin{enumerate}
+    \item \textbf{Log template encoding:} We use a frozen RoBERTa encoder
+    to convert parsed log templates into fixed-dimensional embeddings.
+    \item \textbf{Sequence modeling:} A bidirectional LSTM processes the sequence of log embeddings
+    to capture temporal dependencies.
+    \item \textbf{Focal classification:} We apply $\alpha$-balanced focal loss~\cite{lin2017focal}
+    for binary anomaly classification, replacing the standard CE loss used in prior work.
+\end{enumerate}
+
+Our key contributions are:
+\begin{itemize}
+    \item We identify class imbalance as a major bottleneck in log anomaly detection
+    and propose focal loss as a principled solution.
+    \item We provide comprehensive ablation studies demonstrating that focal loss
+    consistently outperforms cross-entropy across three datasets with varying imbalance ratios.
+    \item We achieve state-of-the-art results on HDFS, BGL, and Thunderbird benchmarks.
+\end{itemize}
+
+\section{Related Work}\label{sec:related}
+
+\paragraph{Log anomaly detection.}
+Early learning-based approaches include DeepLog~\cite{du2017deeplog}, which models log key sequences with an LSTM,
+and LogAnomaly~\cite{meng2019loganomaly}, which enriches log representations with template semantics.
+LogRobust~\cite{zhang2019robust} uses attention to handle unstable log sequences.
+Pre-trained language models have been applied by PLELog~\cite{yang2021plelog}
+and LogBERT~\cite{guo2021logbert}, which adapt BERT-style models to log data.
+NeuralLog~\cite{le2021neurallog} directly uses raw log messages without parsing.
+These works use CE loss without addressing class imbalance.
+
+\paragraph{Class imbalance in anomaly detection.}
+Class imbalance has been studied extensively in general anomaly detection~\cite{he2009learning}.
+Common strategies include oversampling (SMOTE~\cite{chawla2002smote}),
+cost-sensitive learning, and loss function modifications.
+Focal loss~\cite{lin2017focal} was proposed for dense object detection
+and has since been applied to medical imaging~\cite{yeung2022focalloss_medical}
+and fraud detection~\cite{johnson2019focalloss_fraud}.
+To our knowledge, we are the first to systematically evaluate focal loss for log anomaly detection.
+
+\section{Method}\label{sec:method}
+
+\subsection{Overview}\label{sec:overview}
+
+Given a sequence of raw log messages $\{m_1, m_2, \ldots, m_T\}$,
+LogFocal performs three steps:
+(1) parse each message into a log template and encode it,
+(2) model the template sequence with a BiLSTM,
+and (3) classify the sequence as normal or anomalous using focal loss.
+
+\subsection{Log Template Encoding}\label{sec:encoding}
+
+We first apply the Drain parser~\cite{he2017drain} to extract log templates from raw messages.
+Each template $t_i$ is a natural-language string with variable parts replaced by wildcards.
+For example, the raw message \texttt{``Block blk\_123 is replicated to 10.0.0.1''}
+becomes the template \texttt{``Block <*> is replicated to <*>''}.
+
+We encode each template using a frozen RoBERTa-base model~\cite{liu2019roberta}.
+The [CLS] token embedding serves as the template representation:
+$\mathbf{e}_i = \text{RoBERTa}(t_i) \in \mathbb{R}^{768}$.
+We freeze the RoBERTa encoder throughout training to avoid catastrophic forgetting
+and to keep the computational cost manageable.
+
+\subsection{Sequence Modeling with BiLSTM}\label{sec:bilstm}
+
+The encoded templates $\{\mathbf{e}_1, \ldots, \mathbf{e}_T\}$ are fed into a two-layer
+bidirectional LSTM with hidden size 256.
+The BiLSTM produces contextualized representations $\{h_1, \ldots, h_T\}$
+that capture both forward and backward temporal dependencies.
+We take the final hidden state as the sequence representation:
+$\mathbf{h}_{seq} = [\overrightarrow{h_T}; \overleftarrow{h_1}] \in \mathbb{R}^{512}$.
+A dropout layer with rate $p$ is applied before the classification head.
+
+\subsection{Focal Loss for Anomaly Classification}\label{sec:focal}
+
+The standard cross-entropy loss for binary classification is:
+\begin{equation}
+\text{CE}(p_t) = -\log(p_t),
+\label{eq:ce}
+\end{equation}
+where $p_t$ is the predicted probability of the ground-truth class.
+
+Focal loss~\cite{lin2017focal} adds a modulating factor to down-weight easy examples:
+\begin{equation}
+\text{FL}(p_t) = -\alpha_t (1 - p_t)^\gamma \log(p_t),
+\label{eq:focal}
+\end{equation}
+where $\gamma \geq 0$ is the focusing parameter that controls how aggressively
+well-classified examples are down-weighted,
+and $\alpha_t \in [0, 1]$ is a class-balancing weight.
+When $\gamma = 0$ and $\alpha_t = 1$, focal loss reduces to standard CE.
+
+For log anomaly detection, the normal class dominates the training set.
+Models trained with CE quickly learn to classify normal sequences correctly,
+but the gradient contribution from these easy examples overwhelms the learning signal
+from rare anomalies.
+Focal loss mitigates this by assigning near-zero loss to confidently classified normal samples
+(where $p_t \to 1$ makes $(1 - p_t)^\gamma \to 0$),
+redirecting the training focus to uncertain or misclassified anomalies.
+
+The $\alpha_t$ factor provides additional class-level rebalancing:
+we set $\alpha_t = 0.75$ for the anomaly class and $\alpha_t = 0.25$ for the normal class,
+reflecting the approximately 3:1 importance ratio we wish to assign.
+We set $\gamma = 2.0$ following the recommendation in~\cite{lin2017focal}.
+
+\section{Experiments}\label{sec:experiments}
+
+\subsection{Datasets}\label{sec:datasets}
+
+We evaluate on three widely used public benchmarks (Table~\ref{tab:datasets}):
+
+\begin{table}[t]
+\centering
+\caption{Dataset statistics. Anomaly ratio indicates the percentage of anomalous sequences.}
+\label{tab:datasets}
+\small
+\begin{tabular}{lccc}
+\toprule
+\textbf{Dataset} & \textbf{Sequences} & \textbf{Anomaly Ratio} & \textbf{Source} \\
+\midrule
+HDFS & 553,366 & 2.9\% & Amazon EC2 \\
+BGL & 4,747,963 & 7.3\% & BlueGene/L \\
+Thunderbird & 211,212,192 & 0.3\% & Sandia Labs \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{itemize}
+    \item \textbf{HDFS}~\cite{xu2009detecting}: Hadoop Distributed File System logs collected from Amazon EC2 clusters. Each session (identified by block ID) is labeled as normal or anomalous. This is the least imbalanced dataset with 2.9\% anomalies.
+    \item \textbf{BGL}~\cite{oliner2007supercomputers}: Blue Gene/L supercomputer logs from Lawrence Livermore National Laboratory, with 7.3\% anomaly ratio. Log messages are grouped into fixed-window sequences.
+    \item \textbf{Thunderbird}~\cite{oliner2007supercomputers}: Logs from the Thunderbird supercomputer at Sandia National Laboratories. With only 0.3\% anomalies, this is the most severely imbalanced dataset and represents the hardest challenge for class-imbalanced methods.
+\end{itemize}
+
+We use an 80/10/10 chronological split for all datasets to prevent temporal data leakage.
+
+\subsection{Baselines}\label{sec:baselines}
+
+We compare against six baselines spanning traditional and deep learning approaches:
+
+\begin{itemize}
+    \item \textbf{DeepLog}~\cite{du2017deeplog}: LSTM-based next log key prediction.
+    \item \textbf{LogAnomaly}~\cite{meng2019loganomaly}: Template2Vec + LSTM.
+    \item \textbf{LogRobust}~\cite{zhang2019robust}: Attention-based BiLSTM.
+    \item \textbf{PLELog}~\cite{yang2021plelog}: Probabilistic label estimation + pre-trained model.
+    \item \textbf{LogBERT}~\cite{guo2021logbert}: BERT-based masked log key prediction.
+    \item \textbf{NeuralLog}~\cite{le2021neurallog}: Transformer on raw log messages.
+\end{itemize}
+
+All baselines use standard CE loss. For fair comparison, we reproduce all baselines using their official code with the same data splits and preprocessing pipeline.
+
+\subsection{Implementation Details}\label{sec:impl}
+
+We use RoBERTa-base (125M parameters) as the log template encoder, frozen throughout training.
+The BiLSTM has 2 layers, hidden size 256, and dropout rate $p = 0.3$.
+We train with AdamW optimizer, learning rate $1 \times 10^{-3}$, batch size 256,
+for 30 epochs with early stopping (patience 5).
+Focal loss hyperparameters are $\gamma = 2.0$ and $\alpha_t = 0.75/0.25$ (anomaly/normal).
+All experiments use a single NVIDIA V100 GPU.
+Results are averaged over five random seeds.
+
+\subsection{Main Results}\label{sec:main_results}
+
+\begin{table}[t]
+\centering
+% FIXME: caption mentions "HDFS and BGL" but the table includes Thunderbird too
+\caption{Anomaly detection results on HDFS and BGL benchmarks. Best results in \textbf{bold}.}
+\label{tab:main}
+\small
+\setlength{\tabcolsep}{3pt}
+\begin{tabular}{lccc|ccc|ccc}
+\toprule
+& \multicolumn{3}{c|}{\textbf{HDFS}} & \multicolumn{3}{c|}{\textbf{BGL}} & \multicolumn{3}{c}{\textbf{Thunderbird}} \\
+\textbf{Model} & F1 & Prec & Rec & F1 & Prec & Rec & F1 & Prec & Rec \\
+\midrule
+DeepLog & 95.6 & 95.4 & 95.8 & 90.2 & 89.1 & 91.3 & 84.7 & 82.3 & 87.3 \\
+LogAnomaly & 96.2 & 96.0 & 96.4 & 91.5 & 90.8 & 92.3 & 86.1 & 84.6 & 87.7 \\
+LogRobust & 96.8 & 96.5 & 97.1 & 92.7 & 92.0 & 93.5 & 87.3 & 86.2 & 88.5 \\
+PLELog & 97.1 & 97.0 & 97.2 & 93.4 & 93.1 & 93.7 & 88.5 & 87.1 & 90.0 \\
+LogBERT & 97.5 & 97.3 & 97.7 & 94.6 & 94.2 & 95.0 & 89.1 & 88.4 & 89.8 \\
+NeuralLog & 97.3 & 97.1 & 97.5 & 94.1 & 93.8 & 94.4 & 88.8 & 87.9 & 89.7 \\
+\midrule
+\textbf{LogFocal} & \textbf{98.2} & \textbf{98.0} & \textbf{98.4} & \textbf{96.1} & \textbf{95.8} & \textbf{96.4} & \textbf{94.8} & \textbf{94.1} & \textbf{95.5} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Table~\ref{tab:main} presents the main results across all three datasets.
+LogFocal achieves state-of-the-art performance on all benchmarks,
+with improvements that scale with the degree of class imbalance.
+
+On HDFS, where class imbalance is moderate (2.9\% anomalies),
+LogFocal achieves 98.2\% F1, a 0.7-point improvement over LogBERT (97.5\%).
+On BGL (7.3\% anomalies), the improvement is 1.5 F1 points (96.1\% vs. 94.6\%).
+On Thunderbird, which has the most extreme imbalance (0.3\% anomalies),
+LogFocal achieves 94.8\% F1---a 5.7-point improvement over LogBERT (89.1\%).
+
+This trend confirms our hypothesis: the benefit of focal loss increases
+as class imbalance becomes more severe.
+On relatively balanced datasets like HDFS, standard CE is already effective,
+and focal loss provides a modest improvement.
+On severely imbalanced datasets like Thunderbird,
+the CE-trained model struggles to detect rare anomalies,
+while focal loss successfully redirects learning attention to these hard cases.
+
+\subsection{Ablation Study}\label{sec:ablation}
+
+We conduct ablation experiments to isolate the contribution of each component (Table~\ref{tab:ablation}).
+
+\begin{table}[t]
+\centering
+\caption{Ablation study on all three datasets. CE = cross-entropy, FL = focal loss.}
+\label{tab:ablation}
+\small
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{lccc}
+\toprule
+\textbf{Configuration} & \textbf{HDFS F1} & \textbf{BGL F1} & \textbf{T-bird F1} \\
+\midrule
+LogFocal (full) & 98.2 & 96.1 & 94.8 \\
+\midrule
+FL $\to$ CE (no focal loss) & 97.4 & 94.5 & 89.1 \\
+FL $\to$ CE + SMOTE & 97.6 & 94.9 & 90.3 \\
+FL w/o $\alpha_t$ ($\alpha_t = 1$) & 97.8 & 95.3 & 92.1 \\
+$\gamma = 1.0$ (instead of 2.0) & 97.9 & 95.6 & 93.0 \\
+$\gamma = 3.0$ (instead of 2.0) & 98.0 & 95.9 & 94.2 \\
+BiLSTM $\to$ Transformer & 98.0 & 95.7 & 93.9 \\
+Frozen RoBERTa $\to$ fine-tuned & 98.1 & 95.9 & 94.5 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\paragraph{Focal loss vs.\ cross-entropy.}
+Replacing focal loss with standard CE (row ``FL $\to$ CE'')
+causes the largest performance drop,
+especially on Thunderbird ($-$5.7 F1 points: 94.8 $\to$ 89.1).
+The drop on HDFS is smaller ($-$0.8 points), consistent with its lower imbalance.
+Adding SMOTE oversampling to CE (``FL $\to$ CE + SMOTE'') recovers some performance
+but remains inferior to focal loss on all datasets,
+confirming that focal loss provides a more principled solution than data-level rebalancing.
+
+\paragraph{Role of $\alpha_t$.}
+Removing the $\alpha_t$ class weight (setting $\alpha_t = 1$ for both classes, row ``FL w/o $\alpha_t$'')
+reduces F1 by 0.4, 0.8, and 2.7 points on HDFS, BGL, and Thunderbird respectively.
+This shows that the modulating factor $(1-p_t)^\gamma$ alone is insufficient;
+explicit class rebalancing via $\alpha_t$ provides additional benefit,
+particularly on severely imbalanced datasets.
+
+\paragraph{Sensitivity to $\gamma$.}
+We test $\gamma \in \{1.0, 2.0, 3.0\}$.
+$\gamma = 2.0$ achieves the best overall performance.
+$\gamma = 1.0$ provides insufficient down-weighting of easy examples,
+while $\gamma = 3.0$ is slightly worse, potentially because it over-suppresses
+the gradient from moderately confident predictions.
+
+\paragraph{Sequence model architecture.}
+Replacing the BiLSTM with a 4-layer Transformer encoder (``BiLSTM $\to$ Transformer'')
+yields comparable results on HDFS but slightly lower F1 on BGL and Thunderbird.
+We attribute this to the BiLSTM's inductive bias for sequential data being well-suited to log streams,
+while the Transformer's permutation-invariant attention may miss temporal ordering cues.
+
+\paragraph{Encoder fine-tuning.}
+Fine-tuning RoBERTa instead of freezing it (``Frozen RoBERTa $\to$ fine-tuned'')
+provides marginal gains on HDFS and BGL but slightly lower performance on Thunderbird.
+The frozen encoder is preferred for its computational efficiency and stability.
+
+\section{Discussion}\label{sec:discussion}
+
+\paragraph{Why focal loss works for logs.}
+The effectiveness of focal loss in log anomaly detection stems from the same principle
+as in object detection~\cite{lin2017focal}: reducing the contribution of easy examples
+(correctly classified normal logs) allows the model to focus on hard examples
+(subtle anomalies that are easily confused with normal patterns).
+In the log domain, this is particularly important because anomalous sequences
+often differ from normal ones by only a single log event.
+
+\paragraph{Limitations.}
+Our framework assumes that log templates are available via parsing.
+When log formats change frequently (log evolution),
+the Drain parser may produce unstable templates.
+Additionally, focal loss requires tuning $\gamma$ and $\alpha_t$,
+although our experiments show that the recommended defaults ($\gamma = 2.0$, $\alpha_t = 0.75$)
+work well across all three datasets.
+
+\paragraph{Broader applicability.}
+While we focus on log anomaly detection, the focal loss strategy
+is applicable to any anomaly detection task with class imbalance,
+including network intrusion detection, fraud detection, and medical event detection.
+
+\section{Conclusion}\label{sec:conclusion}
+
+We proposed LogFocal, a log anomaly detection framework that addresses class imbalance
+by replacing cross-entropy with $\alpha$-balanced focal loss.
+Experiments on HDFS, BGL, and Thunderbird demonstrate that focal loss yields consistent improvements,
+with the largest gain on the most imbalanced dataset.
+Ablation studies confirm that focal loss outperforms both standard CE
+and CE with oversampling, validating our approach as a principled alternative to data-level rebalancing.
+
+\bibliographystyle{IEEEtran}
+\bibliography{references}
+
+\end{document}

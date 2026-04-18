@@ -1,7 +1,8 @@
 # AARRI-bench(Act As a Real Researcher Intern)
 ## 当前任务列表
 - data-awareness
-
+- sharp-ac
+- camera-ready-revision
 
 ## 项目简介
 欢迎大家参与!
