@@ -1,0 +1,5 @@
+Title: Aug-RS: Data Augmentation Strategies for Land Cover Classification in Remote Sensing
+Authors: Zhang, M., Liu, F., and Chen, G.
+Venue: Remote Sensing of Environment, 2024
+Abstract: Land cover classification from satellite imagery often suffers from limited labeled data and class imbalance. We systematically investigate the impact of various data augmentation techniques on segmentation performance for remote sensing tasks. Evaluated strategies include geometric transformations (rotation, flipping, scaling), color jittering, random erasing, and mixing-based augmentations (CutMix, MixUp). Experiments on the DeepGlobe and GID datasets show that combining strong geometric augmentation with moderate color augmentation yields the best generalization, improving mIoU by 2–5 points across different backbone architectures. We also analyze the effect of augmentation on rare land cover classes and provide practical guidelines for training robust segmentation models with limited remote sensing annotations.
+Keywords: Remote sensing, data augmentation, land cover classification, semantic segmentation, generalization

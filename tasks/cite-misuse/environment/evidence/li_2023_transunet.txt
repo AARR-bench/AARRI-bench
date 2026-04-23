@@ -1,0 +1,5 @@
+Title: TransUNet: Transformers Make Strong Encoders for Medical Image Segmentation
+Authors: Li, J., Chen, J., Tang, Y., Wang, C., and Yuille, A.
+Venue: IEEE Transactions on Medical Imaging (TMI), 2023
+Abstract: Medical image segmentation requires precise localization of organs, lesions, and anatomical structures. We propose TransUNet, which integrates Transformer self-attention into a U-Net architecture to capture long-range dependencies while retaining high-resolution spatial details via skip connections. The encoder combines CNN feature maps with multi-head self-attention, and the decoder progressively upsamples fused representations. Extensive experiments on multi-organ CT segmentation (Synapse dataset) and cardiac MRI segmentation (ACDC dataset) demonstrate state-of-the-art performance, with particular improvement on fine-grained organ boundaries. Our work shows that Transformers can effectively supplement CNNs for modeling global context in 3D volumetric medical data.
+Keywords: Medical image segmentation, Transformers, U-Net, CT scans, multi-organ segmentation

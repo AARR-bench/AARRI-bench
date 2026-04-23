@@ -1,0 +1,5 @@
+Title: A Comprehensive Benchmark of Semantic Segmentation Methods for High-Resolution Remote Sensing Imagery
+Authors: Chen, L., Wang, H., and Zhang, Q.
+Venue: IEEE Transactions on Geoscience and Remote Sensing (TGRS), 2022
+Abstract: High-resolution remote sensing image segmentation has seen rapid progress with deep learning. This paper presents a systematic benchmark evaluating ten state-of-the-art semantic segmentation methods—including FCN, U-Net, DeepLabV3+, and SegFormer—on four widely used remote sensing datasets: ISPRS Vaihingen, Potsdam, DeepGlobe, and LoveDA. We analyze performance across different land cover categories, object scales, and boundary complexities. Our findings reveal that Transformer-based architectures consistently outperform pure CNNs on fine-grained categories, and multi-scale feature fusion is critical for handling scale variation in overhead imagery. We provide open-source code and standardized evaluation protocols to facilitate fair comparison in future remote sensing segmentation research.
+Keywords: Remote sensing, semantic segmentation, benchmark, deep learning, high-resolution imagery

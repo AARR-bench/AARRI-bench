@@ -1,0 +1,5 @@
+Title: MSA-RS: Multi-Scale Attention for Remote Sensing Image Segmentation
+Authors: Wang, Y., Li, X., and Zhang, H.
+Venue: ISPRS Journal of Photogrammetry and Remote Sensing, 2023
+Abstract: Remote sensing images exhibit extreme scale variation, from small objects like cars to large homogeneous regions like water bodies. We propose MSA-RS, a multi-scale attention module that enhances feature representation for semantic segmentation of high-resolution optical satellite imagery. Our module computes attention weights across pyramid feature levels and adaptively fuses them to refine object boundaries and class consistency. We integrate MSA-RS into a ResNet-50 encoder and evaluate on the ISPRS Vaihingen and DeepGlobe datasets. Results show significant gains on classes with fine boundaries (e.g., buildings, roads) and improved overall mIoU compared to standard FPN and DeepLabV3+ baselines. The module is lightweight and pluggable into existing segmentation architectures.
+Keywords: Remote sensing, semantic segmentation, multi-scale attention, feature fusion, optical imagery

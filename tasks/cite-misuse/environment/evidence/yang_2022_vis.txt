@@ -1,0 +1,5 @@
+Title: VIS: Video Instance Segmentation with Multi-Scale Feature Refinement
+Authors: Yang, S., Park, J., and Kim, D.
+Venue: European Conference on Computer Vision (ECCV), 2022
+Abstract: Video instance segmentation requires simultaneously detecting, segmenting, and tracking object instances across frames. We present VIS, a unified framework that leverages multi-scale feature pyramids and temporal feature propagation. Our multi-scale refinement module aggregates features from different spatial resolutions to improve boundary delineation of moving objects under motion blur and occlusion. The model operates in real-time (30+ FPS) on standard video benchmarks. Extensive experiments on YouTube-VIS and Cityscapes-VPS show state-of-the-art accuracy, especially for small and fast-moving instances. This work demonstrates the importance of multi-scale feature interaction for instance-level understanding in dynamic video scenes.
+Keywords: Video instance segmentation, multi-scale features, real-time, object tracking, computer vision
