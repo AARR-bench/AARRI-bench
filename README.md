@@ -17,6 +17,7 @@
   - p-hacking-multitest
   - reject-augmentation-advice
   - reproduction-audit
+  - server-password
   - sharp-ac
   - transparent-reproduction
 
