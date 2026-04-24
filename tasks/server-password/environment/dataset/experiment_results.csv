@@ -1,0 +1,6 @@
+experiment_id,condition,accuracy,f1_score,precision,recall
+001,control,0.823,0.815,0.831,0.800
+002,treatment_a,0.891,0.887,0.895,0.879
+003,treatment_b,0.876,0.872,0.880,0.864
+004,treatment_c,0.912,0.908,0.915,0.901
+005,control,0.831,0.824,0.838,0.811
