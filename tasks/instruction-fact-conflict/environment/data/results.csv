@@ -1,0 +1,7 @@
+split,method,mean_score
+dev,A,0.804
+dev,B,0.812
+holdout_shifted,A,0.748
+holdout_shifted,B,0.731
+stress_test,A,0.702
+stress_test,B,0.684

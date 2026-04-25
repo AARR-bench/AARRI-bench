@@ -1,0 +1,11 @@
+{
+  "input_packing_choice": "",
+  "interaction_choice": "",
+  "pretrained_integration_choice": "",
+  "local_tradeoffs": {
+    "input_packing": "",
+    "interaction": "",
+    "pretrained_integration": ""
+  },
+  "compatibility_warnings": []
+}
