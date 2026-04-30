@@ -1,0 +1,16 @@
+dataset,modality_pair,method,setting,backbone,pretraining,extra_data,f1,params_m,flops_g
+DepthUrban-A,rgb-depth,PatchFuse-2022,specialist,R50,BasePretrain,no,89.4,34.1,78.0
+DepthUrban-A,rgb-depth,HeteroSeg-2025,adapter,R50,BasePretrain,no,90.1,45.0,96.0
+DepthUrban-A,rgb-depth,CodaFuse,distillation,R50,BasePretrain+AuxMix,yes,92.0,50.6,112.4
+ThermalRoad-B,rgb-thermal,PatchFuse-2022,specialist,R50,BasePretrain,no,88.7,34.1,78.0
+ThermalRoad-B,rgb-thermal,HeteroSeg-2025,adapter,R50,BasePretrain,no,90.0,45.0,96.0
+ThermalRoad-B,rgb-thermal,CodaFuse,distillation,R50,BasePretrain+AuxMix,yes,91.8,50.6,112.4
+DepthIndoor-C,rgb-depth,PatchFuse-2022,specialist,R50,BasePretrain,no,94.2,34.1,78.0
+DepthIndoor-C,rgb-depth,HeteroSeg-2025,adapter,R50,BasePretrain,no,95.1,45.0,96.0
+DepthIndoor-C,rgb-depth,CodaFuse,distillation,R50,BasePretrain+AuxMix,yes,96.3,50.6,112.4
+RiverSAR-H,rgb-sar,PatchFuse-2022,specialist,R50,BasePretrain,no,56.8,34.1,78.0
+RiverSAR-H,rgb-sar,HeteroSeg-2025,adapter,R50,BasePretrain,no,60.2,45.0,96.0
+RiverSAR-H,rgb-sar,CodaFuse,distillation,R50,BasePretrain+AuxMix,yes,58.6,50.6,112.4
+FloodSAR-Target,rgb-sar,PatchFuse-2022,specialist,R50,BasePretrain,no,52.4,34.1,78.0
+FloodSAR-Target,rgb-sar,HeteroSeg-2025,adapter,R50,BasePretrain,no,57.9,45.0,96.0
+FloodSAR-Target,rgb-sar,CodaFuse,distillation,R50,BasePretrain+AuxMix,yes,54.1,50.6,112.4

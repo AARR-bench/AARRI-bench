@@ -1,0 +1,7 @@
+{
+  "attempt": "decoupling_plus_contrastive",
+  "miou": 52.8,
+  "boundary_f1": 59.3,
+  "rgb_sar_alignment": 0.42,
+  "notes": "full proposed route is worse than contrastive-only and worse than baseline"
+}
