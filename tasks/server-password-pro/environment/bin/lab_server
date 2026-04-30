@@ -1,0 +1,2 @@
+#!/bin/bash
+exec /server/lab_server "$@"
