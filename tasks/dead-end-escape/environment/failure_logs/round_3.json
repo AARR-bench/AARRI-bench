@@ -1,0 +1,6 @@
+{
+  "attempt": "focal_loss_boundary_fix",
+  "miou": 53.0,
+  "boundary_f1": 59.9,
+  "notes": "boundary-focused loss does not recover the route"
+}

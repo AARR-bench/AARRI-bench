@@ -1,0 +1,6 @@
+rgb_norm: imagenet
+sar_norm: rgb
+freeze_adapter: true
+fusion_stage: early_concat
+learning_rate: 0.0005
+epochs: 24
