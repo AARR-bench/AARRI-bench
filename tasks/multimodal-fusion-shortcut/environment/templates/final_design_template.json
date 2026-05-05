@@ -1,0 +1,14 @@
+{
+  "selected_combination": {
+    "input_packing": "",
+    "interaction": "",
+    "pretrained_integration": ""
+  },
+  "reject_shortcut": true,
+  "implementation_priorities": [
+    "keep_rgb_and_sar_distinguishable_before_fusion",
+    "delay_cross_stream_fusion_until_intermediate_features",
+    "preserve_the_rgb_pretrained_stem_with_a_sar_adapter_path"
+  ],
+  "justification": ""
+}

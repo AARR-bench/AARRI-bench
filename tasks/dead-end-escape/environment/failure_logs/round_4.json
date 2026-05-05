@@ -1,0 +1,7 @@
+{
+  "attempt": "warmup_and_weight_sweeps",
+  "warmup_miou": 53.4,
+  "decoupling_weight_0_8_miou": 50.9,
+  "contrastive_weight_0_5_miou": 51.6,
+  "notes": "warmup barely helps; heavier decoupling or contrastive weighting makes the route worse"
+}
