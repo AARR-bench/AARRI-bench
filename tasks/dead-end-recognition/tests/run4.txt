@@ -1,0 +1,32 @@
+Experiment Run 4
+================
+Config:
+  model: bert-base-uncased (fine-tuned)
+  task: SST-2 sentiment classification
+  learning_rate: 1e-5
+  dropout: 0.3
+  batch_size: 32
+  epochs: 15
+  optimizer: AdamW
+  warmup_steps: 500
+  note: increased dropout to reduce overfitting and potentially improve generalization
+
+Training Log:
+  Epoch 1  | train_loss: 0.5489 | val_loss: 0.3312 | val_acc: 86.71%
+  Epoch 2  | train_loss: 0.3801 | val_loss: 0.2812 | val_acc: 89.12%
+  Epoch 3  | train_loss: 0.2991 | val_loss: 0.2541 | val_acc: 90.44%
+  Epoch 4  | train_loss: 0.2512 | val_loss: 0.2389 | val_acc: 91.01%
+  Epoch 5  | train_loss: 0.2201 | val_loss: 0.2318 | val_acc: 91.28%
+  Epoch 6  | train_loss: 0.1989 | val_loss: 0.2289 | val_acc: 91.41%
+  Epoch 7  | train_loss: 0.1834 | val_loss: 0.2278 | val_acc: 91.48%
+  Epoch 8  | train_loss: 0.1712 | val_loss: 0.2274 | val_acc: 91.51%
+  Epoch 9  | train_loss: 0.1621 | val_loss: 0.2273 | val_acc: 91.52%
+  Epoch 10 | train_loss: 0.1549 | val_loss: 0.2274 | val_acc: 91.50%
+  Epoch 11 | train_loss: 0.1491 | val_loss: 0.2277 | val_acc: 91.48%
+  Epoch 12 | train_loss: 0.1444 | val_loss: 0.2281 | val_acc: 91.45%
+  Epoch 13 | train_loss: 0.1405 | val_loss: 0.2287 | val_acc: 91.41%
+  Epoch 14 | train_loss: 0.1372 | val_loss: 0.2294 | val_acc: 91.37%
+  Epoch 15 | train_loss: 0.1344 | val_loss: 0.2302 | val_acc: 91.32%
+
+Best val_acc: 91.52% (Epoch 9)
+Note: Higher dropout slows convergence but does not improve peak accuracy. Val_loss plateau observed from Epoch 8 onward (delta < 0.001). No meaningful gain over Run 3. Best checkpoint saved at Epoch 9.

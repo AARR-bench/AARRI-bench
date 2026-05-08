@@ -1,0 +1,32 @@
+Experiment Run 3
+================
+Config:
+  model: bert-base-uncased (fine-tuned)
+  task: SST-2 sentiment classification
+  learning_rate: 1e-5
+  dropout: 0.1
+  batch_size: 32
+  epochs: 15
+  optimizer: AdamW
+  warmup_steps: 500
+  note: reduced lr for more careful optimization, extended training
+
+Training Log:
+  Epoch 1  | train_loss: 0.5213 | val_loss: 0.3198 | val_acc: 87.02%
+  Epoch 2  | train_loss: 0.3541 | val_loss: 0.2701 | val_acc: 89.56%
+  Epoch 3  | train_loss: 0.2712 | val_loss: 0.2421 | val_acc: 90.88%
+  Epoch 4  | train_loss: 0.2198 | val_loss: 0.2312 | val_acc: 91.21%
+  Epoch 5  | train_loss: 0.1889 | val_loss: 0.2278 | val_acc: 91.47%
+  Epoch 6  | train_loss: 0.1671 | val_loss: 0.2261 | val_acc: 91.55%
+  Epoch 7  | train_loss: 0.1512 | val_loss: 0.2258 | val_acc: 91.58%
+  Epoch 8  | train_loss: 0.1401 | val_loss: 0.2257 | val_acc: 91.59%
+  Epoch 9  | train_loss: 0.1321 | val_loss: 0.2258 | val_acc: 91.57%
+  Epoch 10 | train_loss: 0.1261 | val_loss: 0.2261 | val_acc: 91.54%
+  Epoch 11 | train_loss: 0.1214 | val_loss: 0.2265 | val_acc: 91.51%
+  Epoch 12 | train_loss: 0.1178 | val_loss: 0.2271 | val_acc: 91.48%
+  Epoch 13 | train_loss: 0.1149 | val_loss: 0.2279 | val_acc: 91.44%
+  Epoch 14 | train_loss: 0.1127 | val_loss: 0.2289 | val_acc: 91.39%
+  Epoch 15 | train_loss: 0.1109 | val_loss: 0.2301 | val_acc: 91.33%
+
+Best val_acc: 91.59% (Epoch 8)
+Note: Loss curve is nearly flat from Epoch 7 onward (val_loss delta < 0.001 per epoch). Model has clearly converged. Extended training yields no further improvement. Best checkpoint saved at Epoch 8.
