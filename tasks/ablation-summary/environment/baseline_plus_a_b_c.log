@@ -1,0 +1,16 @@
+Command: vlm-train --config baseline_plus_a_b_c.yaml --output runs/baseline_plus_a_b_c_seed1
+Config: baseline_plus_a_b_c.yaml
+Model: contrastive_vlm
+Image encoder: vit_b16
+Text encoder: roberta_base
+Training data: compvlm_train
+Evaluation split: compvlm_comp_test
+Optimizer: adamw
+Learning rate: 3.0e-5
+Weight decay: 0.05
+Batch size: 128
+Seed: 1
+Modules: spatial binding module on; contrastive margin alignment head; relation adapter on
+Augmentations: random_resized_crop, horizontal_flip, color_jitter, random_erasing
+Validation compositional accuracy: 68.0
+Test compositional accuracy: 67.7

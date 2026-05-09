@@ -1,0 +1,22 @@
+model: contrastive_vlm
+image_encoder: vit_b16
+text_encoder: roberta_base
+alignment_head: contrastive_margin
+spatial_binding_module: true
+relation_adapter: true
+training_data: compvlm_train
+evaluation_split: compvlm_comp_test
+optimizer: adamw
+learning_rate: 3.0e-5
+weight_decay: 0.05
+batch_size: 128
+scheduler: cosine
+warmup_steps: 1000
+max_steps: 20000
+epochs: 20
+seed: 1
+augmentations:
+  random_resized_crop: true
+  horizontal_flip: true
+  color_jitter: true
+  random_erasing: true

@@ -1,0 +1,16 @@
+Command: vlm-train --config baseline.yaml --output runs/baseline_seed1
+Config: baseline.yaml
+Model: contrastive_vlm
+Image encoder: vit_b16
+Text encoder: roberta_base
+Training data: compvlm_train
+Evaluation split: compvlm_comp_test
+Optimizer: adamw
+Learning rate: 3.0e-5
+Weight decay: 0.05
+Batch size: 128
+Seed: 1
+Modules: standard alignment head; spatial binding module off; relation adapter off
+Augmentations: random_resized_crop, horizontal_flip
+Validation compositional accuracy: 61.4
+Test compositional accuracy: 61.2
