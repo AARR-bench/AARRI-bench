@@ -1,0 +1,19 @@
+Title: Scaling LLM Test-Time Compute Optimally Depends on Problem Difficulty
+Authors: Zhang, W., Li, J., Park, S., Nguyen, T., Desai, R.
+Date: 2024-11-20
+arXiv: 2411.09823
+
+Abstract: Recent work shows that increasing test-time compute improves LLM reasoning performance. However, prior methods allocate a fixed token budget uniformly across all problems, ignoring the fact that problems vary greatly in difficulty. We study how to allocate test-time compute optimally across problems of varying difficulty. We show empirically and theoretically that easy problems are systematically over-served by fixed-budget inference, while hard problems systematically under-invest compute. We propose a difficulty-adaptive token budget algorithm (AdaThink) that estimates problem difficulty via a lightweight classifier and allocates token budget proportionally to a learned difficulty score. On MATH-500, AdaThink outperforms fixed-budget baselines by 2.8–4.2 percentage points while reducing total inference FLOPs by 31%. Our analysis shows the optimal compute-difficulty relationship follows a sublinear power law with exponent approximately 0.73. We validate AdaThink on GSM8K, ARC-Challenge, and MMLU-Pro, finding consistent improvements of 1.4–3.1 pp over fixed-budget baselines. Code and models are available at https://github.com/adathink-llm/adathink.
+
+Key results:
+- Fixed budget (512 tokens): MATH-500 accuracy 78.1%
+- Fixed budget (1024 tokens): MATH-500 accuracy 79.7%
+- AdaThink (adaptive budget, mean=768 tokens): MATH-500 accuracy 82.3%
+- Improvement over best fixed budget: +2.6 pp (conservative) to +4.2 pp (hard subset)
+- FLOPs reduction vs. fixed-1024: 31%
+
+The core insight: problem difficulty should drive compute allocation at inference time. This is both obvious in hindsight and surprisingly underexplored. Easy problems not only don't benefit from extra tokens — they often degrade slightly due to overthinking. Hard problems, by contrast, show near-linear returns on additional compute up to a saturation point.
+
+Related work: Snell et al. (2024) showed that test-time compute can be traded off against model scale. Our work focuses specifically on within-budget allocation across heterogeneous problem sets, which is orthogonal to overall budget size selection.
+
+Citation: Zhang et al. (2024). Scaling LLM Test-Time Compute Optimally Depends on Problem Difficulty. arXiv:2411.09823.

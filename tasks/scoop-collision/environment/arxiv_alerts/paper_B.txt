@@ -1,0 +1,20 @@
+Title: Monte Carlo Tree Search for LLM Reasoning: A Systematic Evaluation
+Authors: Kumar, A., Westbrook, D., Sato, H., Patel, M., Chen, Y.
+Date: 2024-12-05
+arXiv: 2412.07134
+
+Abstract: We systematically evaluate Monte Carlo Tree Search (MCTS) as a search procedure for improving LLM reasoning at test time. Unlike greedy decoding or beam search, MCTS explores a tree of reasoning paths and uses rollout value estimates to guide the search. We benchmark five MCTS variants — including UCT, PUCT, and policy-gradient-guided variants — on MATH-500, GSM8K, ARC-Challenge, and MMLU-Pro. Our results show that MCTS consistently outperforms beam search and greedy decoding, achieving +5.8 pp over greedy on MATH-500. However, MCTS requires 12–28x more compute than single-pass decoding, making it impractical for most deployment settings without aggressive pruning. We propose TreeBudget, a compute-aware pruning strategy that reduces MCTS overhead by 67% with only 0.9 pp accuracy loss on average. We also find that the value function quality is the primary bottleneck — a strong process reward model (PRM) yields +3.1 pp over a weak PRM, more than any architectural choice. Our code, trained PRMs, and evaluation scripts are released to facilitate future work on tree-based LLM inference.
+
+Key results:
+- Greedy baseline on MATH-500: 76.8%
+- Beam search (width=4): 78.4%
+- MCTS-UCT: 82.6%
+- MCTS-PUCT: 83.1%
+- MCTS + TreeBudget pruning: 82.2% (at 33% of full MCTS cost)
+- Strong PRM vs. weak PRM gap: +3.1 pp across all benchmarks
+
+Discussion: MCTS represents a fundamentally different approach to test-time scaling compared to budget allocation methods. While budget allocation asks "how many tokens to generate?", MCTS asks "which reasoning path to explore?". These approaches are largely orthogonal and may be combined. We leave this to future work.
+
+Limitations: Our evaluation is limited to single-step reasoning tasks. Multi-step agentic tasks with external tool use are not evaluated. MCTS overhead makes real-time applications challenging.
+
+Citation: Kumar et al. (2024). Monte Carlo Tree Search for LLM Reasoning: A Systematic Evaluation. arXiv:2412.07134.
