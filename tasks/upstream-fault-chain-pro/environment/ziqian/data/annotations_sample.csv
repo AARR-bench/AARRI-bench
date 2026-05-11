@@ -1,0 +1,31 @@
+annotation_id,dialogue_id,annotator_id,timestamp,preferred_response,rating,comments
+A001,D0142,ANN002,2025-01-13 09:14:22,B,4,Response B addresses the patient concern more directly
+A002,D0089,ANN005,2025-01-13 09:31:07,A,5,Response A provides clearer medication guidance
+A003,D0217,ANN011,2025-01-13 09:47:53,B,4,Both acceptable but B uses more patient-friendly language
+A004,D0033,ANN002,2025-01-13 10:02:14,A,5,Response A correctly flags need for follow-up
+A005,D0156,ANN008,2025-01-13 10:18:45,B,3,Response B slightly better but both are vague on dosage
+A006,D0074,ANN014,2025-01-13 10:35:29,A,4,Response A is more empathetic in tone
+A007,D0301,ANN003,2025-01-13 10:51:38,B,5,Response B correctly recommends specialist referral
+A008,D0198,ANN009,2025-01-13 11:07:12,A,4,Response A better addresses the patient anxiety
+A009,D0445,ANN005,2025-01-13 11:23:56,B,4,Response B more thorough on symptom explanation
+A010,D0082,ANN016,2025-01-13 11:40:03,A,5,Response A avoids unnecessary jargon
+A011,D0267,ANN002,2025-01-13 12:04:17,B,4,Response B correctly distinguishes acute vs chronic symptoms
+A012,D0119,ANN011,2025-01-13 12:21:44,A,3,Marginal preference for A; both responses adequate
+A013,D0388,ANN008,2025-01-13 12:38:29,B,5,Response B is clearly more clinically accurate
+A014,D0055,ANN017,2025-01-13 12:54:51,A,4,Response A gives actionable next steps
+A015,D0223,ANN003,2025-01-13 13:11:06,B,4,Response B better handles patient concern about drug interactions
+A016,D0341,ANN009,2025-01-13 13:27:32,A,5,Response A appropriate urgency level for the symptoms described
+A017,D0177,ANN014,2025-01-13 13:44:18,B,3,Both responses are acceptable; slight preference for B
+A018,D0412,ANN016,2025-01-13 14:00:45,A,4,Response A more complete explanation of treatment options
+A019,D0093,ANN005,2025-01-13 14:17:23,B,5,Response B handles emotional distress component well
+A020,D0259,ANN002,2025-01-13 14:33:47,A,4,Response A correctly advises monitoring before escalation
+A021,D0318,ANN011,2025-01-13 14:50:14,B,4,Response B better at explaining why the symptom pattern matters
+A022,D0145,ANN017,2025-01-13 15:06:38,A,5,Response A concise and accurate
+A023,D0402,ANN008,2025-01-13 15:23:02,B,4,Response B includes appropriate disclaimer about consulting physician
+A024,D0071,ANN003,2025-01-13 15:39:17,A,3,Close call; A slightly more informative
+A025,D0284,ANN009,2025-01-13 15:55:43,B,5,Response B correctly identifies red flag symptoms
+A026,D0167,ANN016,2025-01-13 16:12:08,A,4,Response A maintains appropriate clinical neutrality
+A027,D0339,ANN014,2025-01-13 16:28:34,B,4,Response B more patient-centered approach
+A028,D0208,ANN005,2025-01-13 16:44:59,A,5,Response A clearly superior in medication safety guidance
+A029,D0421,ANN002,2025-01-13 16:58:21,B,4,Response B better explains the underlying mechanism
+A030,D0136,ANN011,2025-01-13 17:14:47,A,4,Response A more appropriate tone for anxious patient

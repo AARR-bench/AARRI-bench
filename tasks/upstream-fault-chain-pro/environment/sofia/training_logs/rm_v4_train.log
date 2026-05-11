@@ -1,0 +1,80 @@
+2025-01-27 09:03:11 [INFO] Using device: cuda
+2025-01-27 09:03:14 [INFO] Loaded 2341 preference pairs from data/batch12_preference_pairs.jsonl
+2025-01-27 09:03:15 [INFO] Train: 1872 | Val: 234 | Test: 235
+2025-01-27 09:04:02 [INFO] Step 25  | train_loss=1.2341 | val_loss=1.1987 | val_acc=0.5213 | nan_batches=0
+2025-01-27 09:05:01 [INFO] Step 50  | train_loss=1.1823 | val_loss=1.1244 | val_acc=0.5341 | nan_batches=0
+2025-01-27 09:06:02 [INFO] Step 75  | train_loss=1.1204 | val_loss=1.0891 | val_acc=0.5470 | nan_batches=0
+2025-01-27 09:07:05 [INFO] Step 100 | train_loss=1.0934 | val_loss=1.0512 | val_acc=0.5641 | nan_batches=0
+2025-01-27 09:08:09 [INFO] Step 125 | train_loss=1.0511 | val_loss=1.0231 | val_acc=0.5726 | nan_batches=0
+2025-01-27 09:09:14 [INFO] Step 150 | train_loss=1.0234 | val_loss=0.9987 | val_acc=0.5812 | nan_batches=0
+2025-01-27 09:10:19 [INFO] Step 175 | train_loss=0.9981 | val_loss=0.9743 | val_acc=0.5855 | nan_batches=0
+2025-01-27 09:11:27 [INFO] Step 200 | train_loss=0.9712 | val_loss=0.9512 | val_acc=0.5897 | nan_batches=0
+2025-01-27 09:12:35 [INFO] Step 225 | train_loss=0.9534 | val_loss=0.9334 | val_acc=0.5940 | nan_batches=0
+2025-01-27 09:13:44 [WARNING] WARNING: nan detected in batch, skipping gradient update
+2025-01-27 09:13:52 [INFO] Step 247 | train_loss=0.9389 | val_loss=0.9212 | val_acc=0.5983 | nan_batches=1
+2025-01-27 09:14:59 [INFO] Step 275 | train_loss=0.9201 | val_loss=0.9134 | val_acc=0.6026 | nan_batches=0
+2025-01-27 09:16:07 [INFO] Step 300 | train_loss=0.9103 | val_loss=0.9089 | val_acc=0.6026 | nan_batches=0
+2025-01-27 09:17:17 [INFO] Step 325 | train_loss=0.9041 | val_loss=0.9021 | val_acc=0.6068 | nan_batches=0
+2025-01-27 09:18:27 [INFO] Step 350 | train_loss=0.8987 | val_loss=0.9003 | val_acc=0.6068 | nan_batches=0
+2025-01-27 09:19:37 [INFO] Step 375 | train_loss=0.8954 | val_loss=0.8991 | val_acc=0.6068 | nan_batches=0
+2025-01-27 09:20:47 [WARNING] WARNING: nan detected in batch, skipping gradient update
+2025-01-27 09:20:55 [INFO] Step 389 | train_loss=0.8934 | val_loss=0.8987 | val_acc=0.6111 | nan_batches=1
+2025-01-27 09:22:07 [WARNING] WARNING: nan detected in batch, skipping gradient update
+2025-01-27 09:22:14 [INFO] Step 412 | train_loss=0.8923 | val_loss=0.8984 | val_acc=0.6111 | nan_batches=1
+2025-01-27 09:23:22 [INFO] Step 425 | train_loss=0.8919 | val_loss=0.8982 | val_acc=0.6111 | nan_batches=0
+2025-01-27 09:24:34 [INFO] Step 450 | train_loss=0.8914 | val_loss=0.8979 | val_acc=0.6111 | nan_batches=0
+2025-01-27 09:25:46 [INFO] Step 475 | train_loss=0.8912 | val_loss=0.8977 | val_acc=0.6111 | nan_batches=0
+2025-01-27 09:26:58 [INFO] Step 500 | train_loss=0.8909 | val_loss=0.8975 | val_acc=0.6111 | nan_batches=0
+2025-01-27 09:28:11 [INFO] Step 525 | train_loss=0.8907 | val_loss=0.8974 | val_acc=0.6111 | nan_batches=0
+2025-01-27 09:29:23 [WARNING] WARNING: nan detected in batch, skipping gradient update
+2025-01-27 09:29:31 [INFO] Step 567 | train_loss=0.8904 | val_loss=0.8973 | val_acc=0.6111 | nan_batches=1
+2025-01-27 09:30:44 [INFO] Step 575 | train_loss=0.8903 | val_loss=0.8972 | val_acc=0.6111 | nan_batches=0
+2025-01-27 09:31:57 [INFO] Step 600 | train_loss=0.8902 | val_loss=0.8971 | val_acc=0.6111 | nan_batches=0
+2025-01-27 09:33:10 [INFO] Step 625 | train_loss=0.8901 | val_loss=0.8970 | val_acc=0.6111 | nan_batches=0
+2025-01-27 09:34:23 [WARNING] WARNING: nan detected in batch, skipping gradient update
+2025-01-27 09:34:31 [INFO] Step 634 | train_loss=0.8900 | val_loss=0.8970 | val_acc=0.6111 | nan_batches=1
+2025-01-27 09:35:45 [INFO] Step 650 | train_loss=0.8900 | val_loss=0.8970 | val_acc=0.6111 | nan_batches=0
+2025-01-27 09:36:57 [INFO] Step 675 | train_loss=0.8899 | val_loss=0.8970 | val_acc=0.6111 | nan_batches=0
+2025-01-27 09:38:10 [INFO] Step 700 | train_loss=0.8899 | val_loss=0.8970 | val_acc=0.6111 | nan_batches=0
+2025-01-27 09:39:24 [WARNING] WARNING: nan detected in batch, skipping gradient update
+2025-01-27 09:39:32 [INFO] Step 712 | train_loss=0.8898 | val_loss=0.8969 | val_acc=0.6111 | nan_batches=1
+2025-01-27 09:40:46 [INFO] Step 725 | train_loss=0.8898 | val_loss=0.8969 | val_acc=0.6111 | nan_batches=0
+2025-01-27 09:42:00 [INFO] Step 750 | train_loss=0.8898 | val_loss=0.8969 | val_acc=0.6111 | nan_batches=0
+2025-01-27 09:43:13 [WARNING] WARNING: nan detected in batch, skipping gradient update
+2025-01-27 09:43:22 [INFO] Step 789 | train_loss=0.8897 | val_loss=0.8969 | val_acc=0.6111 | nan_batches=1
+2025-01-27 09:44:36 [INFO] Step 800 | train_loss=0.8897 | val_loss=0.8969 | val_acc=0.6111 | nan_batches=0
+2025-01-27 09:45:50 [INFO] Step 825 | train_loss=0.8897 | val_loss=0.8969 | val_acc=0.6111 | nan_batches=0
+2025-01-27 09:47:04 [WARNING] WARNING: nan detected in batch, skipping gradient update
+2025-01-27 09:47:12 [INFO] Step 834 | train_loss=0.8897 | val_loss=0.8970 | val_acc=0.6111 | nan_batches=1
+2025-01-27 09:48:28 [INFO] Step 850 | train_loss=0.8897 | val_loss=0.8970 | val_acc=0.6111 | nan_batches=0
+2025-01-27 09:49:42 [INFO] Step 875 | train_loss=0.8897 | val_loss=0.8970 | val_acc=0.6111 | nan_batches=0
+2025-01-27 09:51:00 [WARNING] WARNING: nan detected in batch, skipping gradient update
+2025-01-27 09:51:08 [INFO] Step 912 | train_loss=0.8897 | val_loss=0.8971 | val_acc=0.6111 | nan_batches=1
+2025-01-27 09:52:22 [INFO] Step 925 | train_loss=0.8896 | val_loss=0.8971 | val_acc=0.6111 | nan_batches=0
+2025-01-27 09:53:37 [INFO] Step 950 | train_loss=0.8896 | val_loss=0.8972 | val_acc=0.6111 | nan_batches=0
+2025-01-27 09:54:51 [INFO] Step 975 | train_loss=0.8896 | val_loss=0.8972 | val_acc=0.6111 | nan_batches=0
+2025-01-27 09:56:06 [WARNING] WARNING: nan detected in batch, skipping gradient update
+2025-01-27 09:56:14 [INFO] Step 1034 | train_loss=0.8896 | val_loss=0.8973 | val_acc=0.6111 | nan_batches=1
+2025-01-27 09:57:28 [INFO] Step 1050 | train_loss=0.8895 | val_loss=0.8973 | val_acc=0.6111 | nan_batches=0
+2025-01-27 09:58:42 [INFO] Step 1075 | train_loss=0.8895 | val_loss=0.8974 | val_acc=0.6111 | nan_batches=0
+2025-01-27 09:59:57 [INFO] Step 1100 | train_loss=0.8895 | val_loss=0.8974 | val_acc=0.6111 | nan_batches=0
+2025-01-27 10:01:11 [WARNING] WARNING: nan detected in batch, skipping gradient update
+2025-01-27 10:01:19 [INFO] Step 1145 | train_loss=0.8895 | val_loss=0.8975 | val_acc=0.6111 | nan_batches=1
+2025-01-27 10:02:33 [INFO] Step 1150 | train_loss=0.8895 | val_loss=0.8975 | val_acc=0.6111 | nan_batches=0
+2025-01-27 10:03:48 [INFO] Step 1175 | train_loss=0.8895 | val_loss=0.8976 | val_acc=0.6111 | nan_batches=0
+2025-01-27 10:05:03 [INFO] Step 1200 | train_loss=0.8894 | val_loss=0.8977 | val_acc=0.6111 | nan_batches=0
+2025-01-27 10:06:18 [WARNING] WARNING: nan detected in batch, skipping gradient update
+2025-01-27 10:06:26 [INFO] Step 1289 | train_loss=0.8894 | val_loss=0.8979 | val_acc=0.6111 | nan_batches=1
+2025-01-27 10:07:41 [INFO] Step 1300 | train_loss=0.8894 | val_loss=0.8980 | val_acc=0.6111 | nan_batches=0
+2025-01-27 10:08:56 [INFO] Step 1325 | train_loss=0.8894 | val_loss=0.8981 | val_acc=0.6111 | nan_batches=0
+2025-01-27 10:10:11 [INFO] Step 1350 | train_loss=0.8893 | val_loss=0.8982 | val_acc=0.6111 | nan_batches=0
+2025-01-27 10:11:27 [INFO] Step 1375 | train_loss=0.8893 | val_loss=0.8983 | val_acc=0.6111 | nan_batches=0
+2025-01-27 10:12:42 [INFO] Step 1400 | train_loss=0.8893 | val_loss=0.8984 | val_acc=0.6111 | nan_batches=0
+2025-01-27 10:13:57 [INFO] Step 1425 | train_loss=0.8893 | val_loss=0.8985 | val_acc=0.6111 | nan_batches=0
+2025-01-27 10:15:13 [WARNING] WARNING: nan detected in batch, skipping gradient update
+2025-01-27 10:15:21 [INFO] Step 1456 | train_loss=0.8893 | val_loss=0.8987 | val_acc=0.6111 | nan_batches=1
+2025-01-27 10:16:37 [INFO] Step 1475 | train_loss=0.8892 | val_loss=0.8988 | val_acc=0.6111 | nan_batches=0
+2025-01-27 10:17:52 [INFO] Step 1500 | train_loss=0.8892 | val_loss=0.8930 | val_acc=0.6120 | nan_batches=0
+2025-01-27 10:17:53 [INFO] Training complete. Final eval: val_loss=0.8930, val_acc=0.6120
+2025-01-27 10:17:54 [INFO] Total NaN batches skipped: 14 / 112 training steps (12.5%)
+2025-01-27 10:17:54 [INFO] Saved model to checkpoints/rm_v4/model.pt

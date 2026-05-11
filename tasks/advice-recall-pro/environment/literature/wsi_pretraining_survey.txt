@@ -1,0 +1,54 @@
+Foundation Models for Computational Pathology: A Survey of Pretraining Strategies
+───────────────────────────────────────────────────────────────────────────────
+
+Abstract
+━━━━━━━━
+The application of deep learning to computational pathology has accelerated dramatically over the past five years, driven by the availability of large digitized tissue slide archives and increasingly powerful self-supervised pretraining techniques. In this survey, we review pretraining strategies for whole-slide image (WSI) analysis, with a focus on the domain transfer problem: why ImageNet-pretrained models systematically underperform on histopathology tasks, and what domain-adapted alternatives are now available.
+
+1. Introduction
+━━━━━━━━━━━━━━━
+The standard practice through approximately 2020 was to initialize computational pathology models with weights pretrained on ImageNet (Russakovsky et al., 2015), either via direct ImageNet-1k/21k supervised training or via contrastive self-supervised methods such as MoCo (He et al., 2020) or SimCLR (Chen et al., 2020). This transfer learning paradigm was practical and produced reasonable results on tasks where sufficient labeled pathology data was available.
+
+However, a growing body of evidence has demonstrated that histopathology images are fundamentally different from natural images in ways that limit the effectiveness of ImageNet pretraining:
+
+- **Staining variability**: Hematoxylin and eosin (H&E) staining introduces color distributions absent from natural images.
+- **Scale sensitivity**: Pathological features are meaningful across multiple magnification levels (5×, 20×, 40×), unlike object recognition tasks.
+- **Texture dominance**: Tissue morphology is characterized by texture patterns (nuclear arrangement, gland architecture) rather than the edge-and-shape features emphasized by ImageNet pretraining.
+- **Domain gap**: Natural image models learn features that correlate with semantic categories irrelevant to tissue analysis.
+
+2. The Performance Gap: ImageNet vs. Domain-Adapted Models
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+A consistent finding across multiple benchmarks is that ViT-based models pretrained on ImageNet-21k (e.g., ViT-L/16) achieve 60–65% accuracy on TCGA cancer subtyping tasks, compared to 85–92% for domain-adapted models trained on large histopathology corpora (Chen et al., 2023; Lu et al., 2023; Wang et al., 2024). This 20–30 percentage point gap is not closed by fine-tuning, larger model capacity, or aggressive data augmentation when using an ImageNet-pretrained initialization.
+
+The gap is most pronounced on:
+- Binary cancer subtyping tasks (e.g., TCGA-NSCLC: LUAD vs LUSC)
+- Multi-class Gleason grading for prostate cancer
+- Rare subtype classification tasks with limited labeled examples
+
+3. Available Domain-Adapted Foundation Models
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Several large-scale histopathology foundation models are now publicly available:
+
+| Model | Reference | Pretraining Data | Architecture | TCGA-NSCLC Acc. |
+|-------|-----------|-----------------|--------------|-----------------|
+| UNI | Chen et al., 2023 | 100K+ WSIs (TCGA + private) | ViT-L/16 (DINOv2) | 91.4% |
+| CONCH | Lu et al., 2023 | 1.17M image-caption pairs | ViT-B/16 (CLIP) | 88.3% |
+| CHIEF | Wang et al., 2024 | 60,000 WSIs, 15 cancer types | ViT-L/16 + adapter | 90.2% |
+| Prov-GigaPath | Xu et al., 2024 | 170,000+ WSIs (Providence Health) | ViT-g/14 | 92.1% |
+| ImageNet ViT-L/16 | Dosovitskiy et al., 2021 | ImageNet-21k | ViT-L/16 | 62.3% |
+| ResNet-50 ImageNet | He et al., 2016 | ImageNet-1k | ResNet-50 | 58.7% |
+
+For retinal OCT imaging tasks, similar domain gaps are observed. ImageNet-pretrained CNNs achieve 65–72% on 4-class retinal disease classification (AMD, DME, drusen, normal), while OCT-specific pretrained models achieve 88–92% (Lee et al., 2024).
+
+4. Recommendation
+━━━━━━━━━━━━━━━━━
+For any new histopathology classification task — regardless of scale, cancer type, or modality — we recommend starting with a domain-adapted foundation model rather than an ImageNet-pretrained backbone. The performance difference is substantial and consistent, and domain-adapted models are now freely available for research use.
+
+The historical default of ImageNet pretraining should be considered deprecated for computational pathology tasks as of 2023. New practitioners should not assume that standard computer vision practices transfer directly to pathology without validating on domain-specific benchmarks.
+
+References
+━━━━━━━━━━
+Chen, R. J., et al. (2023). Towards a general-purpose foundation model for computational pathology. Nature Medicine, 30, 850–862.
+Lu, M. Y., et al. (2023). A visual-language foundation model for computational pathology. Nature Medicine, 30, 863–874.
+Wang, X., et al. (2024). CHIEF: Clinical histopathology imaging evaluation foundation model. Nature, 626, 970–978.
+Xu, Z., et al. (2024). A whole-slide foundation model for digital pathology from real-world data. Nature, 630, 181–188.

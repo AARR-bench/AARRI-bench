@@ -1,0 +1,66 @@
+# Annotation Pipeline Configuration
+# RLHF-MedDial Project v2.0
+# Last updated: 2025-01-06
+
+pipeline:
+  name: "meddial-annotation-pipeline"
+  version: "2.0.1"
+  output_dir: "/data/annotations/processed"
+
+# ── Annotation Quality Filters ────────────────────────────────────────────────
+annotation_filter:
+  work_hours_start: 9    # annotator working hours start
+  work_hours_end: 18     # annotator working hours end
+  # Server timezone: UTC-8 (US-West datacenter)
+
+  min_time_per_annotation_sec: 45   # discard lightning-fast submissions (< 45s)
+  max_time_per_annotation_sec: 1800 # discard stale sessions (> 30 min)
+
+# ── IAA Thresholds ────────────────────────────────────────────────────────────
+quality:
+  min_iaa_kappa: 0.60          # per-annotator minimum; below this triggers review
+  production_iaa_target: 0.70  # target for batch-level IAA
+  min_annotations_per_pair: 2  # each dialogue pair needs at least 2 independent ratings
+  majority_threshold: 0.67     # ≥ 2/3 annotators must agree for binary preference
+
+# ── Annotator Management ──────────────────────────────────────────────────────
+annotators:
+  pool_size: 18
+  suspension_threshold_iaa: 0.55  # suspend annotator if rolling IAA drops below this
+  suspension_window_pairs: 50     # rolling window size for suspension check
+  max_daily_annotations: 150      # per annotator, to prevent fatigue
+
+# ── Data Export ───────────────────────────────────────────────────────────────
+export:
+  format: "jsonl"
+  fields:
+    - annotation_id
+    - dialogue_id
+    - annotator_id
+    - timestamp
+    - preferred_response
+    - rating
+    - rationale
+  text_encoding: "utf-8"
+  include_metadata: true
+
+# ── Batch Configuration ───────────────────────────────────────────────────────
+batches:
+  batch_1:
+    dialogue_pool: "meddial_v1_core"
+    target_pairs: 1250
+    priority: "high"
+  batch_2:
+    dialogue_pool: "meddial_v1_extended"
+    target_pairs: 1100
+    priority: "high"
+  batch_3:
+    dialogue_pool: "meddial_v2_hospitals"
+    target_pairs: 1100
+    priority: "medium"
+
+# ── Logging ───────────────────────────────────────────────────────────────────
+logging:
+  level: "INFO"
+  log_file: "/logs/annotation_pipeline.log"
+  log_filter_decisions: true    # log each annotation's accept/reject decision
