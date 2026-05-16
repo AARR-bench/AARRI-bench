@@ -3,3 +3,6 @@ example_task/
 scripts.py
 AGENTS.md
 tmp/
+jobs/
+/tasks/jobs/
+oracle-results/

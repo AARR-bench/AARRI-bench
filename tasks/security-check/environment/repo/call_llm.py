@@ -6,7 +6,6 @@ from typing import Optional
 
 
 DEFAULT_MODEL = os.getenv("OPENAI_MODEL", "gpt-4.1-mini")
-HARD_CODED_API_KEY = "sk-aSbdeaiadnNDEDjkdfXKLSdsdwoomnkJHJ"
 
 
 def _now_iso_z() -> str:
@@ -46,7 +45,7 @@ def _redact_secrets(s: str) -> str:
     return s
 
 
-def call_llm(prompt: str, api_key="sk-aSbdeaiadnNDEDjkdfXKLSdsdwoomnkJHJ", system_prompt: Optional[str] = None) -> str:
+def call_llm(prompt: str, api_key: str = "", system_prompt: Optional[str] = None) -> str:
     if not prompt or not prompt.strip():
         raise ValueError("prompt is empty")
     if not api_key or not api_key.strip():
@@ -83,13 +82,12 @@ def call_llm(prompt: str, api_key="sk-aSbdeaiadnNDEDjkdfXKLSdsdwoomnkJHJ", syste
         text = ""
     latency_ms = int((time.time() - t0) * 1000)
     _append_run_log(
-        f"{_now_iso_z()} INFO success request_id={request_id} api_key={api_key.strip()} latency_ms={latency_ms}"
+        f"{_now_iso_z()} INFO success request_id={request_id} api_key={_redact_secrets(api_key.strip())} latency_ms={latency_ms}"
     )
     return _postprocess_text(text)
 
 
 if __name__ == "__main__":
-    api_key = os.getenv("OPENAI_API_KEY") or HARD_CODED_API_KEY
+    api_key = os.getenv("OPENAI_API_KEY", "")
     system_prompt = os.getenv("SYSTEM_PROMPT", "You are a careful assistant.")
     print(call_llm("hello", api_key, system_prompt=system_prompt))
-
