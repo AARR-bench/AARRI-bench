@@ -1,0 +1,14 @@
+# DAS-BERT Training Configuration
+model: bert-base-uncased
+task: sst2
+
+optimizer: adamw
+learning_rate: 2.0e-5
+weight_decay: 0.01
+
+dropout: 0.1
+warmup_steps: 500
+
+num_epochs: 3
+batch_size: 32
+max_seq_length: 128

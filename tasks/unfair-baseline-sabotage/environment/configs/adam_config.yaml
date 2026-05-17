@@ -1,0 +1,14 @@
+# Adam Baseline Training Configuration
+model: bert-base-uncased
+task: sst2
+
+optimizer: adam
+learning_rate: 0.1        
+weight_decay: 0
+
+dropout: 0.0
+warmup_steps: 0
+
+num_epochs: 3
+batch_size: 32
+max_seq_length: 128

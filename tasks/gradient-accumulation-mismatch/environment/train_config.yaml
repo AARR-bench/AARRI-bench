@@ -1,0 +1,23 @@
+# Training config — BERT-large sentiment classification
+model:
+  name: bert-large-uncased
+  num_labels: 3
+
+data:
+  dataset: sst3
+  max_length: 128
+  train_samples: 67349
+
+training:
+  batch_size: 32
+  gradient_accumulation_steps: 4
+  epochs: 5
+  learning_rate: 3e-5
+  warmup_ratio: 0.06
+  weight_decay: 0.01
+  fp16: true
+  seed: 42
+
+hardware:
+  gpus: 1
+  gpu_type: A100-40GB

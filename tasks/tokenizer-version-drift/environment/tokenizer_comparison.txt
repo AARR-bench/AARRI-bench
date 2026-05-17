@@ -1,0 +1,30 @@
+# Tokenizer config comparison (extracted from tokenizer_config.json)
+
+## transformers 4.31.0 (old, working)
+{
+  "padding_side": "right",
+  "bos_token": "<s>",
+  "eos_token": "</s>",
+  "unk_token": "<unk>",
+  "pad_token": null,
+  "add_bos_token": true,
+  "add_eos_token": false,
+  "legacy": true
+}
+
+## transformers 4.38.0 (new, broken)
+{
+  "padding_side": "left",
+  "bos_token": "<s>",
+  "eos_token": "</s>",
+  "unk_token": "<unk>",
+  "pad_token": "</s>",
+  "add_bos_token": true,
+  "add_eos_token": false,
+  "legacy": false
+}
+
+## Key differences:
+# 1. padding_side: "right" → "left"
+# 2. pad_token: null → "</s>"
+# 3. legacy: true → false (affects tokenization of leading spaces)

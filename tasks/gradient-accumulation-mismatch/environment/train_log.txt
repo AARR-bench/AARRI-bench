@@ -1,0 +1,15 @@
+2025-10-20 10:00:01 | INFO | Starting training...
+2025-10-20 10:00:01 | INFO | Model: roberta-large (355M params)
+2025-10-20 10:00:01 | INFO | Dataset: MNLI train (392,702 examples)
+2025-10-20 10:00:01 | INFO | Per-device batch size: 32
+2025-10-20 10:00:01 | INFO | Gradient accumulation steps: 4
+2025-10-20 10:00:01 | INFO | Number of GPUs: 1
+2025-10-20 10:00:01 | INFO | Effective batch size: 32 * 4 * 1 = 128
+2025-10-20 10:00:01 | INFO | Total optimization steps: 9207 (3 epochs)
+2025-10-20 10:00:01 | INFO | Warmup steps: 552
+2025-10-20 10:00:01 | INFO | Learning rate: 2e-5
+2025-10-20 10:00:01 | INFO | FP16: True
+...
+2025-10-20 14:32:17 | INFO | Epoch 3/3 complete
+2025-10-20 14:32:17 | INFO | Best matched-dev accuracy: 89.1%
+2025-10-20 14:32:17 | INFO | Training finished.

@@ -1,0 +1,15 @@
+# SGD Baseline Training Configuration
+model: bert-base-uncased
+task: sst2
+
+optimizer: sgd
+learning_rate: 0.01
+momentum: 0.9
+weight_decay: 1.0e-4
+
+dropout: 0.1
+warmup_steps: 200
+
+num_epochs: 3
+batch_size: 32
+max_seq_length: 128
