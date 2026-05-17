@@ -39,7 +39,7 @@ def norm(value: object) -> str:
 
 def list_has(items: list[object], *groups: list[str]) -> bool:
     text = "\n".join(norm(item) for item in items)
-    return all(any(term in text for term in group) for group in groups)
+    return all(any(norm(term) in text for term in group) for group in groups)
 
 
 def parse_config() -> dict[str, str]:

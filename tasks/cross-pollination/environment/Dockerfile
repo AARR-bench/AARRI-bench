@@ -2,6 +2,8 @@ FROM python:3.11-slim
 
 WORKDIR /app
 
+RUN pip install --no-cache-dir pytest
+
 COPY weekly_reports/ /app/weekly_reports/
 
 RUN mkdir -p /app/feedback /logs/verifier

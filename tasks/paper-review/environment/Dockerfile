@@ -1,5 +1,4 @@
 FROM python:3.11-slim
-WORKDIR /task
-COPY . .
-RUN pip install --no-cache-dir pytest
-CMD ["bash"]
+WORKDIR /app
+COPY paper /app/paper
+RUN pip install --no-cache-dir pytest pytest-json-ctrf
