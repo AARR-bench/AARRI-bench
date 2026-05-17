@@ -6,6 +6,7 @@ The function `compute_confidence_scores` (line 30 of evaluate.py) contains `mode
 
 Why model.eval() at the start of evaluate() is insufficient:
 - evaluate() correctly calls model.eval() at line 40.
+- after compute_confidence_scores, train mode persists — so the initial eval() no longer applies to subsequent batches.
 - However, compute_confidence_scores() is called every 10 batches (line 52).
 - Inside that function, model.train() is called (line 30) and never reverted.
 - After the first call to compute_confidence_scores (batch_idx=0), the model stays in train mode for batches 1–9, then gets flipped to train again at batch 10, etc.
