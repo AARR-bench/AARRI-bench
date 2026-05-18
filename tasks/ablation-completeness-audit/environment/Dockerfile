@@ -1,7 +1,8 @@
 FROM ubuntu:24.04
 WORKDIR /app
 
-RUN apt-get update && apt-get install -y python3 && rm -rf /var/lib/apt/lists/*
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    python3 python3-pip curl ca-certificates && rm -rf /var/lib/apt/lists/*
 
 RUN mkdir -p /app/logs /app/paper
 
