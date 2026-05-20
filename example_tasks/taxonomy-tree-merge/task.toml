@@ -22,4 +22,4 @@ cpus = 8
 memory_mb = 16384
 storage_mb = 10240
 gpus = 0
-allow_internet = true
+
