@@ -4,7 +4,11 @@ example_task/
 scripts.py
 AGENTS.md
 tmp/
+tmp-tasks/
+tmp-tasks-opus/
 jobs/
 /tasks/jobs/
 oracle-results/
 oracle-run/
+results/
+.DS_Store
