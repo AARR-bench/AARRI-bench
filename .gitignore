@@ -12,4 +12,4 @@ oracle-results/
 oracle-run/
 results/
 .DS_Store
-docker-cleanup.*
+docker
