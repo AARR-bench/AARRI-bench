@@ -57,6 +57,4 @@ task-name/
 
 See the [Harbor documentation](https://www.harborframework.com/docs) for full details on agents, datasets, and verifier configuration.
 
-## Citation
 
-If you use AARRI-Bench in your work, please cite the AARR paper (coming soon).
